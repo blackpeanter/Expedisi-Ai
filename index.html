@@ -1,0 +1,762 @@
+<html class="scroll-smooth" lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Aplikasi Pengiriman Expedisi - Login
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+ </head>
+ <body class="bg-gray-50 min-h-screen flex flex-col">
+  <div id="login-page" class="flex-grow flex items-center justify-center px-4">
+   <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+    <h1 class="text-3xl font-semibold text-blue-700 mb-6 text-center flex items-center justify-center space-x-3">
+     <i class="fas fa-shipping-fast text-blue-700 text-4xl"></i>
+     <span>
+      Expedisi Nusantara
+     </span>
+    </h1>
+    <form id="login-form" class="space-y-6" autocomplete="off">
+     <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="username">
+       Username
+      </label>
+      <input autocomplete="username" class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="username" name="username" placeholder="admin" required="" type="text"/>
+     </div>
+     <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1" for="password">
+       Password
+      </label>
+      <input autocomplete="current-password" class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+     </div>
+     <div>
+      <button class="w-full bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded shadow transition" type="submit">
+       Login
+      </button>
+     </div>
+     <p class="text-red-600 text-center text-sm hidden" id="login-error">
+      Username atau password salah.
+     </p>
+    </form>
+   </div>
+  </div>
+  <div id="app-page" class="hidden flex flex-col min-h-screen">
+   <header class="bg-blue-700 text-white shadow-md">
+    <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
+     <div class="flex items-center space-x-3">
+      <img alt="Logo perusahaan pengiriman expedisi berwarna biru dan putih" class="w-12 h-12 rounded" height="48" src="https://storage.googleapis.com/a1aa/image/a4843d51-5000-4037-8ac4-ce7428837742.jpg" width="48"/>
+      <h1 class="text-2xl font-semibold">
+       Expedisi Nusantara
+      </h1>
+     </div>
+     <nav class="mt-3 md:mt-0">
+      <ul class="flex space-x-6 text-lg font-medium">
+       <li>
+        <a class="hover:text-yellow-300 transition" href="#dashboard">
+         Dashboard
+        </a>
+       </li>
+       <li>
+        <a class="hover:text-yellow-300 transition" href="#barang">
+         Pendataan Barang
+        </a>
+       </li>
+       <li>
+        <a class="hover:text-yellow-300 transition" href="#akuntansi">
+         Akuntansi
+        </a>
+       </li>
+       <li>
+        <a class="hover:text-yellow-300 transition" href="#laporan">
+         Laporan
+        </a>
+       </li>
+       <li>
+        <button id="logout-btn" class="text-white hover:text-yellow-300 transition flex items-center space-x-2">
+         <i class="fas fa-sign-out-alt"></i>
+         <span>Logout</span>
+        </button>
+       </li>
+      </ul>
+     </nav>
+    </div>
+   </header>
+   <main class="flex-grow container mx-auto px-4 py-8 space-y-12">
+    <!-- Dashboard Section -->
+    <section class="bg-white rounded-lg shadow p-6" id="dashboard">
+     <h2 class="text-3xl font-semibold mb-6 text-blue-700 flex items-center space-x-3">
+      <i class="fas fa-tachometer-alt">
+      </i>
+      <span>
+       Dashboard
+      </span>
+     </h2>
+     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="bg-blue-100 rounded-lg p-5 flex flex-col items-center">
+       <i class="fas fa-box fa-3x text-blue-600 mb-3">
+       </i>
+       <p class="text-xl font-semibold text-blue-800">
+        Total Barang
+       </p>
+       <p class="text-3xl font-bold text-blue-900" id="total-barang">
+        0
+       </p>
+      </div>
+      <div class="bg-green-100 rounded-lg p-5 flex flex-col items-center">
+       <i class="fas fa-truck fa-3x text-green-600 mb-3">
+       </i>
+       <p class="text-xl font-semibold text-green-800">
+        Pengiriman Hari Ini
+       </p>
+       <p class="text-3xl font-bold text-green-900" id="pengiriman-hari-ini">
+        0
+       </p>
+      </div>
+      <div class="bg-yellow-100 rounded-lg p-5 flex flex-col items-center">
+       <i class="fas fa-dollar-sign fa-3x text-yellow-600 mb-3">
+       </i>
+       <p class="text-xl font-semibold text-yellow-800">
+        Pendapatan Bulan Ini
+       </p>
+       <p class="text-3xl font-bold text-yellow-900" id="pendapatan-bulan-ini">
+        Rp 0
+       </p>
+      </div>
+      <div class="bg-red-100 rounded-lg p-5 flex flex-col items-center">
+       <i class="fas fa-exclamation-triangle fa-3x text-red-600 mb-3">
+       </i>
+       <p class="text-xl font-semibold text-red-800">
+        Pengiriman Tertunda
+       </p>
+       <p class="text-3xl font-bold text-red-900" id="pengiriman-tertunda">
+        0
+       </p>
+      </div>
+     </div>
+    </section>
+    <!-- Pendataan Barang Section -->
+    <section class="bg-white rounded-lg shadow p-6" id="barang">
+     <h2 class="text-3xl font-semibold mb-6 text-blue-700 flex items-center space-x-3">
+      <i class="fas fa-boxes">
+      </i>
+      <span>
+       Pendataan Barang
+      </span>
+     </h2>
+     <form class="space-y-6 max-w-4xl mx-auto" id="form-barang">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="nama-barang">
+         Nama Barang
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="nama-barang" name="namaBarang" placeholder="Contoh: Paket Elektronik" required="" type="text"/>
+       </div>
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="berat-barang">
+         Berat (kg)
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="berat-barang" min="0.1" name="beratBarang" placeholder="Contoh: 2.5" required="" step="0.1" type="number"/>
+       </div>
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="asal">
+         Asal
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="asal" name="asal" placeholder="Contoh: Jakarta" required="" type="text"/>
+       </div>
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="tujuan">
+         Tujuan
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="tujuan" name="tujuan" placeholder="Contoh: Surabaya" required="" type="text"/>
+       </div>
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="harga">
+         Harga Pengiriman (Rp)
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="harga" min="0" name="harga" placeholder="Contoh: 50000" required="" step="1000" type="number"/>
+       </div>
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="status">
+         Status Pengiriman
+        </label>
+        <select class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="status" name="status" required="">
+         <option value="dikirim">
+          Dikirim
+         </option>
+         <option value="tertunda">
+          Tertunda
+         </option>
+         <option value="selesai">
+          Selesai
+         </option>
+        </select>
+       </div>
+      </div>
+      <div class="flex justify-end">
+       <button class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded shadow transition" type="submit">
+        Tambah Barang
+       </button>
+      </div>
+     </form>
+     <div class="mt-10 overflow-x-auto max-w-full">
+      <table class="min-w-full border border-gray-300 rounded-lg overflow-hidden">
+       <thead class="bg-blue-700 text-white">
+        <tr>
+         <th class="px-4 py-3 text-left">
+          ID
+         </th>
+         <th class="px-4 py-3 text-left">
+          Nama Barang
+         </th>
+         <th class="px-4 py-3 text-left">
+          Berat (kg)
+         </th>
+         <th class="px-4 py-3 text-left">
+          Asal
+         </th>
+         <th class="px-4 py-3 text-left">
+          Tujuan
+         </th>
+         <th class="px-4 py-3 text-left">
+          Harga (Rp)
+         </th>
+         <th class="px-4 py-3 text-left">
+          Status
+         </th>
+         <th class="px-4 py-3 text-left">
+          Aksi
+         </th>
+        </tr>
+       </thead>
+       <tbody class="bg-white divide-y divide-gray-200" id="tabel-barang">
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <!-- Akuntansi Section -->
+    <section class="bg-white rounded-lg shadow p-6" id="akuntansi">
+     <h2 class="text-3xl font-semibold mb-6 text-blue-700 flex items-center space-x-3">
+      <i class="fas fa-calculator">
+      </i>
+      <span>
+       Akuntansi
+      </span>
+     </h2>
+     <form class="space-y-6 max-w-3xl mx-auto" id="form-akuntansi">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="tanggal">
+         Tanggal
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="tanggal" name="tanggal" required="" type="date"/>
+       </div>
+       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="jenis-transaksi">
+         Jenis Transaksi
+        </label>
+        <select class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="jenis-transaksi" name="jenisTransaksi" required="">
+         <option value="pendapatan">
+          Pendapatan
+         </option>
+         <option value="pengeluaran">
+          Pengeluaran
+         </option>
+        </select>
+       </div>
+       <div class="md:col-span-2">
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="keterangan">
+         Keterangan
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="keterangan" name="keterangan" placeholder="Contoh: Pembayaran pengiriman paket" required="" type="text"/>
+       </div>
+       <div class="md:col-span-2">
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="jumlah">
+         Jumlah (Rp)
+        </label>
+        <input class="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" id="jumlah" min="0" name="jumlah" placeholder="Contoh: 100000" required="" step="1000" type="number"/>
+       </div>
+      </div>
+      <div class="flex justify-end">
+       <button class="bg-green-700 hover:bg-green-800 text-white font-semibold px-6 py-2 rounded shadow transition" type="submit">
+        Tambah Transaksi
+       </button>
+      </div>
+     </form>
+     <div class="mt-10 overflow-x-auto max-w-full">
+      <table class="min-w-full border border-gray-300 rounded-lg overflow-hidden">
+       <thead class="bg-green-700 text-white">
+        <tr>
+         <th class="px-4 py-3 text-left">
+          ID
+         </th>
+         <th class="px-4 py-3 text-left">
+          Tanggal
+         </th>
+         <th class="px-4 py-3 text-left">
+          Jenis
+         </th>
+         <th class="px-4 py-3 text-left">
+          Keterangan
+         </th>
+         <th class="px-4 py-3 text-left">
+          Jumlah (Rp)
+         </th>
+         <th class="px-4 py-3 text-left">
+          Aksi
+         </th>
+        </tr>
+       </thead>
+       <tbody class="bg-white divide-y divide-gray-200" id="tabel-akuntansi">
+       </tbody>
+      </table>
+     </div>
+     <div class="mt-8 max-w-3xl mx-auto bg-green-50 rounded-lg p-6 shadow">
+      <h3 class="text-2xl font-semibold mb-4 text-green-800">
+       Ringkasan Keuangan
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+       <div class="bg-green-100 rounded-lg p-4">
+        <p class="text-lg font-medium text-green-700">
+         Total Pendapatan
+        </p>
+        <p class="text-3xl font-bold text-green-900" id="total-pendapatan">
+         Rp 0
+        </p>
+       </div>
+       <div class="bg-red-100 rounded-lg p-4">
+        <p class="text-lg font-medium text-red-700">
+         Total Pengeluaran
+        </p>
+        <p class="text-3xl font-bold text-red-900" id="total-pengeluaran">
+         Rp 0
+        </p>
+       </div>
+       <div class="bg-yellow-100 rounded-lg p-4">
+        <p class="text-lg font-medium text-yellow-700">
+         Saldo
+        </p>
+        <p class="text-3xl font-bold text-yellow-900" id="saldo">
+         Rp 0
+        </p>
+       </div>
+      </div>
+     </div>
+    </section>
+    <!-- Laporan Section -->
+    <section class="bg-white rounded-lg shadow p-6" id="laporan">
+     <h2 class="text-3xl font-semibold mb-6 text-blue-700 flex items-center space-x-3">
+      <i class="fas fa-file-alt">
+      </i>
+      <span>
+       Laporan
+      </span>
+     </h2>
+     <div class="max-w-4xl mx-auto space-y-6">
+      <div>
+       <h3 class="text-xl font-semibold mb-2">
+        Laporan Pengiriman
+       </h3>
+       <div class="overflow-x-auto rounded border border-gray-300">
+        <table class="min-w-full divide-y divide-gray-200">
+         <thead class="bg-blue-700 text-white">
+          <tr>
+           <th class="px-4 py-3 text-left">
+            ID
+           </th>
+           <th class="px-4 py-3 text-left">
+            Nama Barang
+           </th>
+           <th class="px-4 py-3 text-left">
+            Asal
+           </th>
+           <th class="px-4 py-3 text-left">
+            Tujuan
+           </th>
+           <th class="px-4 py-3 text-left">
+            Status
+           </th>
+           <th class="px-4 py-3 text-left">
+            Harga (Rp)
+           </th>
+          </tr>
+         </thead>
+         <tbody class="bg-white divide-y divide-gray-200" id="laporan-pengiriman">
+         </tbody>
+        </table>
+       </div>
+      </div>
+      <div>
+       <h3 class="text-xl font-semibold mb-2">
+        Laporan Akuntansi
+       </h3>
+       <div class="overflow-x-auto rounded border border-gray-300">
+        <table class="min-w-full divide-y divide-gray-200">
+         <thead class="bg-green-700 text-white">
+          <tr>
+           <th class="px-4 py-3 text-left">
+            ID
+           </th>
+           <th class="px-4 py-3 text-left">
+            Tanggal
+           </th>
+           <th class="px-4 py-3 text-left">
+            Jenis
+           </th>
+           <th class="px-4 py-3 text-left">
+            Keterangan
+           </th>
+           <th class="px-4 py-3 text-left">
+            Jumlah (Rp)
+           </th>
+          </tr>
+         </thead>
+         <tbody class="bg-white divide-y divide-gray-200" id="laporan-akuntansi">
+         </tbody>
+        </table>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main>
+   <footer class="bg-blue-700 text-white py-6 mt-auto">
+    <div class="container mx-auto px-4 text-center text-sm">
+     © 2024 Expedisi Nusantara. Semua hak cipta dilindungi.
+    </div>
+   </footer>
+  </div>
+  <script>
+   // Login credentials
+    const USERNAME = 'admin';
+    const PASSWORD = '221104';
+
+    const loginPage = document.getElementById('login-page');
+    const appPage = document.getElementById('app-page');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // Check if user is logged in (simple session using localStorage)
+    function checkLogin() {
+      if (localStorage.getItem('isLoggedIn') === 'true') {
+        loginPage.classList.add('hidden');
+        appPage.classList.remove('hidden');
+        document.title = 'Aplikasi Pengiriman Expedisi';
+      } else {
+        loginPage.classList.remove('hidden');
+        appPage.classList.add('hidden');
+        document.title = 'Aplikasi Pengiriman Expedisi - Login';
+      }
+    }
+
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
+
+      if (username === USERNAME && password === PASSWORD) {
+        localStorage.setItem('isLoggedIn', 'true');
+        loginError.classList.add('hidden');
+        loginForm.reset();
+        checkLogin();
+      } else {
+        loginError.classList.remove('hidden');
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('isLoggedIn');
+      checkLogin();
+    });
+
+    checkLogin();
+
+    // Data arrays
+    let barangList = [];
+    let akuntansiList = [];
+
+    // Generate unique ID
+    function generateId(prefix) {
+      return prefix + '-' + Math.random().toString(36).substr(2, 9);
+    }
+
+    // Format number to Rupiah currency
+    function formatRupiah(number) {
+      return 'Rp ' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    // Update Dashboard counts
+    function updateDashboard() {
+      const totalBarang = barangList.length;
+      const pengirimanHariIni = barangList.filter(b => {
+        // Assume "hari ini" means status "dikirim" or "selesai" added today
+        // Since no date on barang, count all with status dikirim or selesai
+        return b.status === 'dikirim' || b.status === 'selesai';
+      }).length;
+      const pendapatanBulanIni = akuntansiList.filter(t => {
+        const now = new Date();
+        const tgl = new Date(t.tanggal);
+        return (
+          t.jenisTransaksi === 'pendapatan' &&
+          tgl.getMonth() === now.getMonth() &&
+          tgl.getFullYear() === now.getFullYear()
+        );
+      }).reduce((sum, t) => sum + t.jumlah, 0);
+      const pengirimanTertunda = barangList.filter(b => b.status === 'tertunda').length;
+
+      document.getElementById('total-barang').textContent = totalBarang;
+      document.getElementById('pengiriman-hari-ini').textContent = pengirimanHariIni;
+      document.getElementById('pendapatan-bulan-ini').textContent = formatRupiah(pendapatanBulanIni);
+      document.getElementById('pengiriman-tertunda').textContent = pengirimanTertunda;
+    }
+
+    // Render table barang
+    function renderTabelBarang() {
+      const tbody = document.getElementById('tabel-barang');
+      tbody.innerHTML = '';
+      barangList.forEach((b, i) => {
+        const tr = document.createElement('tr');
+        tr.className = i % 2 === 0 ? '' : 'bg-gray-50';
+        tr.innerHTML = `
+          <td class="px-4 py-2">${b.id}</td>
+          <td class="px-4 py-2">${b.namaBarang}</td>
+          <td class="px-4 py-2">${b.beratBarang.toFixed(1)}</td>
+          <td class="px-4 py-2">${b.asal}</td>
+          <td class="px-4 py-2">${b.tujuan}</td>
+          <td class="px-4 py-2">${formatRupiah(b.harga)}</td>
+          <td class="px-4 py-2 capitalize">${b.status}</td>
+          <td class="px-4 py-2 space-x-2">
+            <button data-id="${b.id}" class="edit-barang text-yellow-600 hover:text-yellow-800" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button data-id="${b.id}" class="delete-barang text-red-600 hover:text-red-800" title="Hapus">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      updateDashboard();
+      renderLaporanPengiriman();
+    }
+
+    // Render table akuntansi
+    function renderTabelAkuntansi() {
+      const tbody = document.getElementById('tabel-akuntansi');
+      tbody.innerHTML = '';
+      akuntansiList.forEach((t, i) => {
+        const tr = document.createElement('tr');
+        tr.className = i % 2 === 0 ? '' : 'bg-gray-50';
+        tr.innerHTML = `
+          <td class="px-4 py-2">${t.id}</td>
+          <td class="px-4 py-2">${t.tanggal}</td>
+          <td class="px-4 py-2 capitalize">${t.jenisTransaksi}</td>
+          <td class="px-4 py-2">${t.keterangan}</td>
+          <td class="px-4 py-2">${formatRupiah(t.jumlah)}</td>
+          <td class="px-4 py-2 space-x-2">
+            <button data-id="${t.id}" class="edit-akuntansi text-yellow-600 hover:text-yellow-800" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button data-id="${t.id}" class="delete-akuntansi text-red-600 hover:text-red-800" title="Hapus">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      updateRingkasanKeuangan();
+      renderLaporanAkuntansi();
+    }
+
+    // Update ringkasan keuangan
+    function updateRingkasanKeuangan() {
+      const totalPendapatan = akuntansiList
+        .filter(t => t.jenisTransaksi === 'pendapatan')
+        .reduce((sum, t) => sum + t.jumlah, 0);
+      const totalPengeluaran = akuntansiList
+        .filter(t => t.jenisTransaksi === 'pengeluaran')
+        .reduce((sum, t) => sum + t.jumlah, 0);
+      const saldo = totalPendapatan - totalPengeluaran;
+
+      document.getElementById('total-pendapatan').textContent = formatRupiah(totalPendapatan);
+      document.getElementById('total-pengeluaran').textContent = formatRupiah(totalPengeluaran);
+      document.getElementById('saldo').textContent = formatRupiah(saldo);
+    }
+
+    // Render laporan pengiriman
+    function renderLaporanPengiriman() {
+      const tbody = document.getElementById('laporan-pengiriman');
+      tbody.innerHTML = '';
+      barangList.forEach((b, i) => {
+        const tr = document.createElement('tr');
+        tr.className = i % 2 === 0 ? '' : 'bg-gray-50';
+        tr.innerHTML = `
+          <td class="px-4 py-2">${b.id}</td>
+          <td class="px-4 py-2">${b.namaBarang}</td>
+          <td class="px-4 py-2">${b.asal}</td>
+          <td class="px-4 py-2">${b.tujuan}</td>
+          <td class="px-4 py-2 capitalize">${b.status}</td>
+          <td class="px-4 py-2">${formatRupiah(b.harga)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render laporan akuntansi
+    function renderLaporanAkuntansi() {
+      const tbody = document.getElementById('laporan-akuntansi');
+      tbody.innerHTML = '';
+      akuntansiList.forEach((t, i) => {
+        const tr = document.createElement('tr');
+        tr.className = i % 2 === 0 ? '' : 'bg-gray-50';
+        tr.innerHTML = `
+          <td class="px-4 py-2">${t.id}</td>
+          <td class="px-4 py-2">${t.tanggal}</td>
+          <td class="px-4 py-2 capitalize">${t.jenisTransaksi}</td>
+          <td class="px-4 py-2">${t.keterangan}</td>
+          <td class="px-4 py-2">${formatRupiah(t.jumlah)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Clear form fields
+    function clearForm(form) {
+      form.reset();
+    }
+
+    // Handle tambah barang
+    const formBarang = document.getElementById('form-barang');
+    formBarang.addEventListener('submit', e => {
+      e.preventDefault();
+      const editId = formBarang.dataset.editId;
+      if (editId) {
+        // Update existing barang
+        const index = barangList.findIndex(b => b.id === editId);
+        if (index !== -1) {
+          barangList[index].namaBarang = formBarang['namaBarang'].value.trim();
+          barangList[index].beratBarang = parseFloat(formBarang['beratBarang'].value);
+          barangList[index].asal = formBarang['asal'].value.trim();
+          barangList[index].tujuan = formBarang['tujuan'].value.trim();
+          barangList[index].harga = parseInt(formBarang['harga'].value);
+          barangList[index].status = formBarang['status'].value;
+
+          renderTabelBarang();
+          clearForm(formBarang);
+          formBarang.querySelector('button[type="submit"]').textContent = 'Tambah Barang';
+          delete formBarang.dataset.editId;
+        }
+      } else {
+        // Tambah barang baru
+        const formData = new FormData(formBarang);
+        const newBarang = {
+          id: generateId('BRG'),
+          namaBarang: formData.get('namaBarang').trim(),
+          beratBarang: parseFloat(formData.get('beratBarang')),
+          asal: formData.get('asal').trim(),
+          tujuan: formData.get('tujuan').trim(),
+          harga: parseInt(formData.get('harga')),
+          status: formData.get('status'),
+        };
+        barangList.push(newBarang);
+        renderTabelBarang();
+        clearForm(formBarang);
+      }
+    });
+
+    // Handle tambah transaksi akuntansi
+    const formAkuntansi = document.getElementById('form-akuntansi');
+    formAkuntansi.addEventListener('submit', e => {
+      e.preventDefault();
+      const editId = formAkuntansi.dataset.editId;
+      if (editId) {
+        const index = akuntansiList.findIndex(t => t.id === editId);
+        if (index !== -1) {
+          akuntansiList[index].tanggal = formAkuntansi['tanggal'].value;
+          akuntansiList[index].jenisTransaksi = formAkuntansi['jenisTransaksi'].value;
+          akuntansiList[index].keterangan = formAkuntansi['keterangan'].value.trim();
+          akuntansiList[index].jumlah = parseInt(formAkuntansi['jumlah'].value);
+
+          renderTabelAkuntansi();
+          clearForm(formAkuntansi);
+          formAkuntansi.querySelector('button[type="submit"]').textContent = 'Tambah Transaksi';
+          delete formAkuntansi.dataset.editId;
+        }
+      } else {
+        const formData = new FormData(formAkuntansi);
+        const newTransaksi = {
+          id: generateId('TRX'),
+          tanggal: formData.get('tanggal'),
+          jenisTransaksi: formData.get('jenisTransaksi'),
+          keterangan: formData.get('keterangan').trim(),
+          jumlah: parseInt(formData.get('jumlah')),
+        };
+        akuntansiList.push(newTransaksi);
+        renderTabelAkuntansi();
+        clearForm(formAkuntansi);
+      }
+    });
+
+    // Delegate event listeners for edit and delete barang
+    document.getElementById('tabel-barang').addEventListener('click', e => {
+      if (e.target.closest('.edit-barang')) {
+        const id = e.target.closest('.edit-barang').dataset.id;
+        const barang = barangList.find(b => b.id === id);
+        if (barang) {
+          formBarang['namaBarang'].value = barang.namaBarang;
+          formBarang['beratBarang'].value = barang.beratBarang;
+          formBarang['asal'].value = barang.asal;
+          formBarang['tujuan'].value = barang.tujuan;
+          formBarang['harga'].value = barang.harga;
+          formBarang['status'].value = barang.status;
+
+          formBarang.querySelector('button[type="submit"]').textContent = 'Update Barang';
+          formBarang.dataset.editId = id;
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+      } else if (e.target.closest('.delete-barang')) {
+        const id = e.target.closest('.delete-barang').dataset.id;
+        if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+          barangList = barangList.filter(b => b.id !== id);
+          renderTabelBarang();
+        }
+      }
+    });
+
+    // Delegate event listeners for edit and delete akuntansi
+    document.getElementById('tabel-akuntansi').addEventListener('click', e => {
+      if (e.target.closest('.edit-akuntansi')) {
+        const id = e.target.closest('.edit-akuntansi').dataset.id;
+        const transaksi = akuntansiList.find(t => t.id === id);
+        if (transaksi) {
+          formAkuntansi['tanggal'].value = transaksi.tanggal;
+          formAkuntansi['jenisTransaksi'].value = transaksi.jenisTransaksi;
+          formAkuntansi['keterangan'].value = transaksi.keterangan;
+          formAkuntansi['jumlah'].value = transaksi.jumlah;
+
+          formAkuntansi.querySelector('button[type="submit"]').textContent = 'Update Transaksi';
+          formAkuntansi.dataset.editId = id;
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+      } else if (e.target.closest('.delete-akuntansi')) {
+        const id = e.target.closest('.delete-akuntansi').dataset.id;
+        if (confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) {
+          akuntansiList = akuntansiList.filter(t => t.id !== id);
+          renderTabelAkuntansi();
+        }
+      }
+    });
+
+    // Initial render
+    renderTabelBarang();
+    renderTabelAkuntansi();
+  </script>
+ </body>
+</html>
